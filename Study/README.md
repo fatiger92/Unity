@@ -1,2 +1,2 @@
-#Study
-Unity Study
+# Study
+Unity study repo
