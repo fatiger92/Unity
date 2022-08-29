@@ -57,6 +57,7 @@ public class WarriorController : MonoBehaviour
             Debug.Log("Up : 벽의 위에 부딪힘");
             return;
         }
+        
         Debug.Log("Down : 벽의 아래에 부딪힘");
     }
  
