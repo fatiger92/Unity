@@ -34,7 +34,9 @@ public class Enemy : Actor
     private float LastBattleUpdateTime = 0.0f;
 
     [SerializeField] private int FireRemainCount = 1;
-    
+
+    [SerializeField] private int GamePoint = 10;
+
     protected override void UpdateActor()
     {
         switch (CurrentState)
@@ -135,18 +137,27 @@ public class Enemy : Actor
     {
         Player player = other.GetComponentInParent<Player>();
         if (player)
-            player.OnCrash(this);
+            player.OnCrash(this, CrashDamage);
     }
     
-    public void OnCrash(Player player)
+    public override void OnCrash(Actor attacker, int damage)
     {
-        Debug.Log($"OnCrash player = {player}");
+        base.OnCrash(attacker ,damage);
     }
     
     public void Fire()
     {
         GameObject go = Instantiate(Bullet);
         Bullet bullet = go.GetComponent<Bullet>();
-        bullet.Fire(OwnerSide.Enemy, FireTransform.position, -FireTransform.right, BulletSpeed, Damage);
+        bullet.Fire(this, FireTransform.position, -FireTransform.right, BulletSpeed, Damage);
+    }
+
+    protected override void OnDead(Actor killer)
+    {
+        base.OnDead(killer);
+        SystemManager.Instance.GamePointAccumulator.Accumulate(GamePoint);
+        
+        CurrentState = State.Dead;
+        Destroy(gameObject);
     }
 }

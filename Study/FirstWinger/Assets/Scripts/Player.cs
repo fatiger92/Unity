@@ -64,18 +64,24 @@ public class Player : Actor
     {   
         Enemy enemy = other.GetComponentInParent<Enemy>();
         if (enemy)
-            enemy.OnCrash(this);
+            enemy.OnCrash(this, CrashDamage);
     }
 
-    public void OnCrash(Enemy enemy)
+    public override void OnCrash(Actor attacker, int damage)
     {
-        Debug.Log($"OnCrash player = {enemy}");
+        base.OnCrash(attacker, damage);
     }
 
     public void Fire()
     {
         GameObject go = Instantiate(Bullet);
         Bullet bullet = go.GetComponent<Bullet>();
-        bullet.Fire(OwnerSide.Player, FireTransform.position, FireTransform.right, BulletSpeed, Damage);
+        bullet.Fire(this, FireTransform.position, FireTransform.right, BulletSpeed, Damage);
+    }
+
+    protected override void OnDead(Actor killer)
+    {
+        base.OnDead(killer);
+        gameObject.SetActive(false);
     }
 }

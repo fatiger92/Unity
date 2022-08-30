@@ -11,19 +11,19 @@ public enum OwnerSide
 
 public class Bullet : MonoBehaviour
 {
-    private const float LifeTime = 3f;
-    
-    private OwnerSide ownerSide = OwnerSide.Player;
+    private const float LifeTime = 15f;     // 총알의 생존 시간
     
     [SerializeField] private Vector3 MoveDirection = Vector3.zero;
     [SerializeField] private float Speed = 0f;
     
-    private bool NeedMove = false;
+    private bool NeedMove = false;      // 이동 플래그
 
     private float FiredTime;
-    private bool Hited = false;
+    private bool Hited = false;         // 부딪혔는지 플래그
 
-    [SerializeField] private int Damage;
+    [SerializeField] private int Damage = 1;
+
+    private Actor Owner;
     
     void Update()
     {
@@ -43,9 +43,9 @@ public class Bullet : MonoBehaviour
         transform.position += moveVector;
     }
 
-    public void Fire(OwnerSide FireOwner, Vector3 firePosition, Vector3 direction, float speed, int damage)
+    public void Fire(Actor owner, Vector3 firePosition, Vector3 direction, float speed, int damage)
     {
-        ownerSide = FireOwner;
+        Owner = owner;
         transform.position = firePosition;
         MoveDirection = direction;
         Speed = speed;
@@ -72,25 +72,16 @@ public class Bullet : MonoBehaviour
     {
         if (Hited)
             return;
+
+        if (collider.gameObject.layer == LayerMask.NameToLayer("EnemyBullet")
+            || collider.gameObject.layer == LayerMask.NameToLayer("PlayerBullet"))
+            return;
+
+        Actor actor = collider.GetComponentInParent<Actor>();
+        if (actor && actor.IsDead)
+            return;
         
-        if (ownerSide == OwnerSide.Player)
-        {
-            var enemy = collider.GetComponentInParent<Enemy>();
-            
-            if (enemy.IsDead)
-                return;
-
-            enemy.OnBulletHited(Damage);
-        }
-        else
-        {
-            var player = collider.GetComponentInParent<Player>();
-            
-            if (player.IsDead)
-                return;
-
-            player.OnBulletHited(Damage);
-        }
+        actor.OnBulletHited(Owner, Damage);
         
         // 충돌 시 더 이상 충돌 감지를 하지 않도록 꺼줌 - 이건 좋은 방법인듯
         Collider myCollider = GetComponentInChildren<Collider>();
@@ -98,6 +89,10 @@ public class Bullet : MonoBehaviour
         
         Hited = true;
         NeedMove = false;
+        
+        GameObject go = SystemManager.Instance.EffectManager.GenerateEffect(0, transform.position);
+        go.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+        Disappear();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -109,20 +104,20 @@ public class Bullet : MonoBehaviour
     {
         if (transform.position is {x: > 15f or < -15f} or {y: > 15f or < -15F})
         {
-            Disapear();
+            Disappear();
             return true;
         }
         
         if (Time.time - FiredTime > LifeTime)
         {
-            Disapear();
+            Disappear();
             return true;
         }
         
         return false;
     }
 
-    private void Disapear()
+    private void Disappear()
     {
         Destroy(gameObject);
     }
