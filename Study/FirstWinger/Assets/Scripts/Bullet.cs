@@ -24,7 +24,9 @@ public class Bullet : MonoBehaviour
     [SerializeField] private int Damage = 1;
 
     private Actor Owner;
-    
+
+    public string FilePath { set; get; }
+
     void Update()
     {
         if (ProcessDisappearCondition())
@@ -90,7 +92,7 @@ public class Bullet : MonoBehaviour
         Hited = true;
         NeedMove = false;
         
-        GameObject go = SystemManager.Instance.EffectManager.GenerateEffect(0, transform.position);
+        GameObject go = SystemManager.Instance.EffectManager.GenerateEffect(EffectManager.BulletDisappearFxIndex, transform.position);
         go.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
         Disappear();
     }
@@ -119,6 +121,6 @@ public class Bullet : MonoBehaviour
 
     private void Disappear()
     {
-        Destroy(gameObject);
+        SystemManager.Instance.BulletManager.Remove(this);
     }
 }

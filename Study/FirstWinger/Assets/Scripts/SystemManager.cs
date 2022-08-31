@@ -31,6 +31,21 @@ public class SystemManager : MonoBehaviour
     [SerializeField] private EffectManager effectManager;
     public EffectManager EffectManager => effectManager;
 
+    [SerializeField] private EnemyManager enemyManager;
+    public EnemyManager EnemyManager => enemyManager;
+
+    [SerializeField] private BulletManager bulletManager;
+    public BulletManager BulletManager => bulletManager;
+
+    private PrefabCacheSystem enemyCacheSystem = new PrefabCacheSystem();
+    public PrefabCacheSystem EnemyCacheSystem => enemyCacheSystem;
+    
+    private PrefabCacheSystem bulletCacheSystem = new PrefabCacheSystem();
+    public PrefabCacheSystem BulletCasheSystem => bulletCacheSystem;
+
+    private PrefabCacheSystem effectCacheSystem = new PrefabCacheSystem();
+    public PrefabCacheSystem EffectCacheSystem => effectCacheSystem;
+    
     private void Awake()
     {
         if (instance != null)

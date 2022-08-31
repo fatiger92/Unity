@@ -60,6 +60,7 @@ public class PrefabCacheSystem
         }
         
         gameObject.SetActive(false);
+        
         Caches[filePath].Enqueue(gameObject);
         return true;
     }

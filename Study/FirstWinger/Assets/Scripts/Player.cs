@@ -10,7 +10,6 @@ public class Player : Actor
     [SerializeField] private Transform MainBGQuadTransform;
 
     [SerializeField] private Transform FireTransform;
-    [SerializeField] private GameObject Bullet;
     [SerializeField] private float BulletSpeed = 1f;
 
     protected override void UpdateActor()
@@ -74,8 +73,7 @@ public class Player : Actor
 
     public void Fire()
     {
-        GameObject go = Instantiate(Bullet);
-        Bullet bullet = go.GetComponent<Bullet>();
+        Bullet bullet = SystemManager.Instance.BulletManager.Generate(BulletManager.PlayerBulletIndex);
         bullet.Fire(this, FireTransform.position, FireTransform.right, BulletSpeed, Damage);
     }
 

@@ -28,7 +28,6 @@ public class Enemy : Actor
     private float MoveStartTime = 0.0f;
     
     [SerializeField] private Transform FireTransform;
-    [SerializeField] private GameObject Bullet;
     [SerializeField] private float BulletSpeed = 1f;
     
     private float LastBattleUpdateTime = 0.0f;
@@ -36,7 +35,7 @@ public class Enemy : Actor
     [SerializeField] private int FireRemainCount = 1;
 
     [SerializeField] private int GamePoint = 10;
-
+    public string FilePath { get; set; }
     protected override void UpdateActor()
     {
         switch (CurrentState)
@@ -95,6 +94,7 @@ public class Enemy : Actor
         else // if (CurrentState == State.Disappear)
         {
             CurrentState = State.None;
+            SystemManager.Instance.EnemyManager.RemoveEnemy(this);
         }
     }
 
@@ -147,8 +147,7 @@ public class Enemy : Actor
     
     public void Fire()
     {
-        GameObject go = Instantiate(Bullet);
-        Bullet bullet = go.GetComponent<Bullet>();
+        Bullet bullet = SystemManager.Instance.BulletManager.Generate(BulletManager.EnemyBulletIndex);
         bullet.Fire(this, FireTransform.position, -FireTransform.right, BulletSpeed, Damage);
     }
 
@@ -156,8 +155,8 @@ public class Enemy : Actor
     {
         base.OnDead(killer);
         SystemManager.Instance.GamePointAccumulator.Accumulate(GamePoint);
+        SystemManager.Instance.EnemyManager.RemoveEnemy(this);
         
         CurrentState = State.Dead;
-        Destroy(gameObject);
     }
 }
