@@ -45,7 +45,7 @@ public class Actor : MonoBehaviour
       DecreaseHP(attacker, damage);
    }
 
-   private void DecreaseHP(Actor attacker, int value)
+   protected virtual void DecreaseHP(Actor attacker, int value)
    {
       if (isDead)
          return;
