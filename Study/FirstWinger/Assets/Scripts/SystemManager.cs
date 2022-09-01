@@ -37,6 +37,9 @@ public class SystemManager : MonoBehaviour
     [SerializeField] private BulletManager bulletManager;
     public BulletManager BulletManager => bulletManager;
 
+    [SerializeField] private DamageManager damageManager;
+    public DamageManager DamageManager => damageManager;
+
     private PrefabCacheSystem enemyCacheSystem = new PrefabCacheSystem();
     public PrefabCacheSystem EnemyCacheSystem => enemyCacheSystem;
     
@@ -45,6 +48,10 @@ public class SystemManager : MonoBehaviour
 
     private PrefabCacheSystem effectCacheSystem = new PrefabCacheSystem();
     public PrefabCacheSystem EffectCacheSystem => effectCacheSystem;
+    
+    PrefabCacheSystem damageCacheSystem = new PrefabCacheSystem();
+    public PrefabCacheSystem DamageCacheSystem => damageCacheSystem;
+  
     
     private void Awake()
     {

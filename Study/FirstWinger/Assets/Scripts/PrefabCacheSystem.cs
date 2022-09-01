@@ -13,7 +13,7 @@ public class PrefabCacheSystem
 {
     private Dictionary<string, Queue<GameObject>> Caches = new Dictionary<string, Queue<GameObject>>();
 
-    public void GenerateCache(string filePath, GameObject gameObject, int cacheCount)
+    public void GenerateCache(string filePath, GameObject gameObject, int cacheCount, Transform parentTransform = null)
     {
         if (Caches.ContainsKey(filePath))
         {
@@ -24,7 +24,7 @@ public class PrefabCacheSystem
         var queue = new Queue<GameObject>();
         for (int i = 0; i < cacheCount; i++)
         {
-            var go = Object.Instantiate<GameObject>(gameObject);
+            var go = Object.Instantiate<GameObject>(gameObject, parentTransform);
             go.SetActive(false);
             queue.Enqueue(go);
         }

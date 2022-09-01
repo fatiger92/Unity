@@ -83,7 +83,7 @@ public class Bullet : MonoBehaviour
         if (actor && actor.IsDead)
             return;
         
-        actor.OnBulletHited(Owner, Damage);
+        actor.OnBulletHited(Owner, Damage, transform.position);
         
         // 충돌 시 더 이상 충돌 감지를 하지 않도록 꺼줌 - 이건 좋은 방법인듯
         Collider myCollider = GetComponentInChildren<Collider>();

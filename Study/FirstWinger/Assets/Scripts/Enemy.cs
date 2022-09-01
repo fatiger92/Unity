@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Enemy : Actor
 {
@@ -137,12 +138,21 @@ public class Enemy : Actor
     {
         Player player = other.GetComponentInParent<Player>();
         if (player)
-            player.OnCrash(this, CrashDamage);
+        {
+            if (!player.IsDead)
+            {
+                BoxCollider box = other as BoxCollider;
+                var crashPos = player.transform.position + box.center;
+                crashPos.x += box.size.x * 0.5f;
+                
+                player.OnCrash(this, CrashDamage, crashPos);
+            }
+        }
     }
     
-    public override void OnCrash(Actor attacker, int damage)
+    public override void OnCrash(Actor attacker, int damage, Vector3 crashPos)
     {
-        base.OnCrash(attacker ,damage);
+        base.OnCrash(attacker ,damage, crashPos);
     }
     
     public void Fire()
@@ -150,7 +160,7 @@ public class Enemy : Actor
         Bullet bullet = SystemManager.Instance.BulletManager.Generate(BulletManager.EnemyBulletIndex);
         bullet.Fire(this, FireTransform.position, -FireTransform.right, BulletSpeed, Damage);
     }
-
+    
     protected override void OnDead(Actor killer)
     {
         base.OnDead(killer);
@@ -158,5 +168,13 @@ public class Enemy : Actor
         SystemManager.Instance.EnemyManager.RemoveEnemy(this);
         
         CurrentState = State.Dead;
+    }
+    
+    protected override void DecreaseHP(Actor attacker, int value, Vector3 damagePos)
+    {
+        base.DecreaseHP(attacker, value, damagePos);
+
+        Vector3 damagePoint = damagePos + Random.insideUnitSphere * 0.5f;
+        SystemManager.Instance.DamageManager.Generate(DamageManager.EnemyDamageIndex, damagePoint, value, Color.magenta);
     }
 }
