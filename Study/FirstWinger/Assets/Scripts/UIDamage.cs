@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class UIDamage : MonoBehaviour
@@ -20,7 +20,7 @@ public class UIDamage : MonoBehaviour
     private const float DisplayDuration = 0.5f;
     private const float FadeOutDuration = 0.2f;
 
-    [SerializeField] private TextMeshProUGUI damageText;
+    [SerializeField] private Text damageText;
 
     private Vector3 CurrentVelocity;
 

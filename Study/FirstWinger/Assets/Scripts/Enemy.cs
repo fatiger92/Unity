@@ -31,12 +31,16 @@ public class Enemy : Actor
     [SerializeField] private Transform FireTransform;
     [SerializeField] private float BulletSpeed = 1f;
     
-    private float LastBattleUpdateTime = 0.0f;
+    private float LastActionUpdateTime = 0.0f;
 
     [SerializeField] private int FireRemainCount = 1;
 
     [SerializeField] private int GamePoint = 10;
     public string FilePath { get; set; }
+    
+    private Vector3 AppearPoint;      // 입장시 도착 위치
+    private Vector3 DisappearPoint;      // 퇴장시 목표 위치
+    
     protected override void UpdateActor()
     {
         switch (CurrentState)
@@ -44,6 +48,7 @@ public class Enemy : Actor
             case State.None:
                 break;
             case State.Ready:
+                UpdateReady();
                 break;
             case State.Appear:
             case State.Disappear:
@@ -90,7 +95,7 @@ public class Enemy : Actor
         if (CurrentState == State.Appear)
         {
             CurrentState = State.Battle;
-            LastBattleUpdateTime = Time.time;
+            LastActionUpdateTime = Time.time;
         }
         else // if (CurrentState == State.Disappear)
         {
@@ -99,6 +104,25 @@ public class Enemy : Actor
         }
     }
 
+    // public void Reset(SquadronMemberStruct data)
+    // {
+    //     EnemyStruct enemyStruct = SystemManager.Instance.EnemyTable.GetEnemy(data.EnemyID);
+    //
+    //     CurrentHP = MaxHP = enemyStruct.MaxHP;             // CurrentHP까지 다시 입력
+    //     Damage = enemyStruct.Damage;                       // 총알 데미지
+    //     crashDamage = enemyStruct.CrashDamage;             // 충돌 데미지
+    //     BulletSpeed = enemyStruct.BulletSpeed;             // 총알 속도
+    //     FireRemainCount = enemyStruct.FireRemainCount;     // 발사할 총알 갯수
+    //     GamePoint = enemyStruct.GamePoint;                 // 파괴시 얻을 점수
+    //
+    //     AppearPoint = new Vector3(data.AppearPointX, data.AppearPointY, 0);             // 입장시 도착 위치 
+    //     DisappearPoint = new Vector3(data.DisappearPointX, data.DisappearPointY, 0);    // 퇴장시 목표 위치
+    //     
+    //     CurrentState = State.Ready;
+    //     LastActionUpdateTime = Time.time;
+    // }
+    
+    
     public void Appear(Vector3 targetPos)
     {
         TargetPosition = targetPos;
@@ -117,9 +141,17 @@ public class Enemy : Actor
         MoveStartTime = Time.time;
     }
 
+    private void UpdateReady()
+    {
+        if (Time.time - LastActionUpdateTime > 1.0f)
+        {
+            Appear(AppearPoint);
+        }
+    }
+    
     private void UpdateBattle()
     {
-        if (Time.time - LastBattleUpdateTime > 1.0f)
+        if (Time.time - LastActionUpdateTime > 1.0f)
         {
             if (FireRemainCount > 0)
             {
@@ -128,9 +160,9 @@ public class Enemy : Actor
             }
             else
             {
-                Disappear(new Vector3(-15f, transform.position.y, transform.position.z));
+                Disappear(DisappearPoint);
             }
-            LastBattleUpdateTime = Time.time;
+            LastActionUpdateTime = Time.time;
         }
     }
 
@@ -172,8 +204,10 @@ public class Enemy : Actor
     
     protected override void DecreaseHP(Actor attacker, int value, Vector3 damagePos)
     {
+        Debug.Log("Enemy DecreaseHP() Start");
+        
         base.DecreaseHP(attacker, value, damagePos);
-
+        
         Vector3 damagePoint = damagePos + Random.insideUnitSphere * 0.5f;
         SystemManager.Instance.DamageManager.Generate(DamageManager.EnemyDamageIndex, damagePoint, value, Color.magenta);
     }

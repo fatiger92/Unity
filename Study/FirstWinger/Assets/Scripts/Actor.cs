@@ -47,6 +47,8 @@ public class Actor : MonoBehaviour
 
    protected virtual void DecreaseHP(Actor attacker, int value, Vector3 damagePos)
    {
+      Debug.Log("Actor DecreaseHP() Start");
+      
       if (isDead)
          return;
 

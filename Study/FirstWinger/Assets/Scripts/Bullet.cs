@@ -80,7 +80,9 @@ public class Bullet : MonoBehaviour
             return;
 
         Actor actor = collider.GetComponentInParent<Actor>();
-        if (actor && actor.IsDead)
+        
+        // 총알의 속도보다 기체가 더 빠를 경우 내 총알에 내가 충돌하는 경우 생김.
+        if (actor && actor.IsDead || actor.gameObject.layer == Owner.gameObject.layer)
             return;
         
         actor.OnBulletHited(Owner, Damage, transform.position);
