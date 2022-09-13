@@ -52,7 +52,9 @@ public class SystemManager : MonoBehaviour
     PrefabCacheSystem damageCacheSystem = new PrefabCacheSystem();
     public PrefabCacheSystem DamageCacheSystem => damageCacheSystem;
   
-    
+    [SerializeField] private EnemyTable enemyTable;
+    public EnemyTable EnemyTable => enemyTable;
+
     private void Awake()
     {
         if (instance != null)

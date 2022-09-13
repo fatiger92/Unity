@@ -2,27 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class SquadronData
-{
-    public float SquadronGenerateTime;
-    public Squadron squadron;
-}
-
 public class SquadronManager : MonoBehaviour
 {
     private float GameStartedTime;
 
     private int SquadronIndex;
 
-    [SerializeField] SquadronData[] squadronDatas;
-
+    [SerializeField] private SquadronTable[] squadronDatas;
+    [SerializeField] private SquadronScheduleTable squadronScheduleTable;
+    
     private bool running = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        squadronDatas = GetComponentsInChildren<SquadronTable>();
+        for(int i = 0; i < squadronDatas.Length; i++)
+            squadronDatas[i].Load();
 
+        squadronScheduleTable.Load();
     }
 
     // Update is called once per frame
@@ -50,7 +48,7 @@ public class SquadronManager : MonoBehaviour
         if (!running)
             return;
 
-        if(Time.time - GameStartedTime >= squadronDatas[SquadronIndex].SquadronGenerateTime)
+        if(Time.time - GameStartedTime >= squadronScheduleTable.GetScheduleData(SquadronIndex).GenerateTime)
         {
             GenerateSquadron(squadronDatas[SquadronIndex]);
             SquadronIndex++;
@@ -63,10 +61,14 @@ public class SquadronManager : MonoBehaviour
         }
     }
 
-    void GenerateSquadron(SquadronData data)
+    void GenerateSquadron(SquadronTable  table)
     {
         Debug.Log("GenerateSquadron");
-        data.squadron.GenerateAllData();
+        for(int i = 0; i < table.GetCount(); i++)
+        {
+            SquadronMemberStruct squadronMember = table.GetSquadronMember(i);
+            SystemManager.Instance.EnemyManager.GenerateEnemy(squadronMember);
+        }
     }
 
     void AllSquadronGenerated()

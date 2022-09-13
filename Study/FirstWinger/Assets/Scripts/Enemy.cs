@@ -104,23 +104,23 @@ public class Enemy : Actor
         }
     }
 
-    // public void Reset(SquadronMemberStruct data)
-    // {
-    //     EnemyStruct enemyStruct = SystemManager.Instance.EnemyTable.GetEnemy(data.EnemyID);
-    //
-    //     CurrentHP = MaxHP = enemyStruct.MaxHP;             // CurrentHP까지 다시 입력
-    //     Damage = enemyStruct.Damage;                       // 총알 데미지
-    //     crashDamage = enemyStruct.CrashDamage;             // 충돌 데미지
-    //     BulletSpeed = enemyStruct.BulletSpeed;             // 총알 속도
-    //     FireRemainCount = enemyStruct.FireRemainCount;     // 발사할 총알 갯수
-    //     GamePoint = enemyStruct.GamePoint;                 // 파괴시 얻을 점수
-    //
-    //     AppearPoint = new Vector3(data.AppearPointX, data.AppearPointY, 0);             // 입장시 도착 위치 
-    //     DisappearPoint = new Vector3(data.DisappearPointX, data.DisappearPointY, 0);    // 퇴장시 목표 위치
-    //     
-    //     CurrentState = State.Ready;
-    //     LastActionUpdateTime = Time.time;
-    // }
+    public void Reset(SquadronMemberStruct data)
+    {
+        EnemyStruct enemyStruct = SystemManager.Instance.EnemyTable.GetEnemy(data.EnemyID);
+    
+        CurrentHP = MaxHP = enemyStruct.MaxHP;             // CurrentHP까지 다시 입력
+        Damage = enemyStruct.Damage;                       // 총알 데미지
+        crashDamage = enemyStruct.CrashDamage;             // 충돌 데미지
+        BulletSpeed = enemyStruct.BulletSpeed;             // 총알 속도
+        FireRemainCount = enemyStruct.FireRemainCount;     // 발사할 총알 갯수
+        GamePoint = enemyStruct.GamePoint;                 // 파괴시 얻을 점수
+    
+        AppearPoint = new Vector3(data.AppearPointX, data.AppearPointY, 0);             // 입장시 도착 위치 
+        DisappearPoint = new Vector3(data.DisappearPointX, data.DisappearPointY, 0);    // 퇴장시 목표 위치
+        
+        CurrentState = State.Ready;
+        LastActionUpdateTime = Time.time;
+    }
     
     
     public void Appear(Vector3 targetPos)
