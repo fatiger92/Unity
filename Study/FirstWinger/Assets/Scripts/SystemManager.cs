@@ -10,50 +10,13 @@ public class SystemManager : MonoBehaviour
     /// </summary>
     private static SystemManager instance;
     public static SystemManager Instance => instance;
-    
-    [SerializeField] private Player player;
-    
-    public Player Hero
-    {
-        get
-        {
-            if (!player)
-            {
-                Debug.LogError("Main Player is not setted!");
-            }
-            return player;
-        }
-    }
-
-    private GamePointAccumulator gamePointAccumulator = new GamePointAccumulator();
-    public GamePointAccumulator GamePointAccumulator => gamePointAccumulator;
-
-    [SerializeField] private EffectManager effectManager;
-    public EffectManager EffectManager => effectManager;
-
-    [SerializeField] private EnemyManager enemyManager;
-    public EnemyManager EnemyManager => enemyManager;
-
-    [SerializeField] private BulletManager bulletManager;
-    public BulletManager BulletManager => bulletManager;
-
-    [SerializeField] private DamageManager damageManager;
-    public DamageManager DamageManager => damageManager;
-
-    private PrefabCacheSystem enemyCacheSystem = new PrefabCacheSystem();
-    public PrefabCacheSystem EnemyCacheSystem => enemyCacheSystem;
-    
-    private PrefabCacheSystem bulletCacheSystem = new PrefabCacheSystem();
-    public PrefabCacheSystem BulletCasheSystem => bulletCacheSystem;
-
-    private PrefabCacheSystem effectCacheSystem = new PrefabCacheSystem();
-    public PrefabCacheSystem EffectCacheSystem => effectCacheSystem;
-    
-    PrefabCacheSystem damageCacheSystem = new PrefabCacheSystem();
-    public PrefabCacheSystem DamageCacheSystem => damageCacheSystem;
-  
+   
     [SerializeField] private EnemyTable enemyTable;
     public EnemyTable EnemyTable => enemyTable;
+
+    private BaseSceneMain currentSceneMain;
+    
+    public BaseSceneMain CurrentSceneMain { set { currentSceneMain = value; } }
 
     private void Awake()
     {
@@ -66,5 +29,17 @@ public class SystemManager : MonoBehaviour
 
         instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void Start()
+    {
+        BaseSceneMain baseSceneMain = GameObject.FindObjectOfType<BaseSceneMain>();
+        Debug.Log("OnSceneLoaded ! baseSceneMain.name = " + baseSceneMain.name);
+        Instance.CurrentSceneMain = baseSceneMain;
+    }
+
+    public T GetCurrentSceneMain<T>() where T : BaseSceneMain
+    {
+        return currentSceneMain as T;
     }
 }

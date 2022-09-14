@@ -9,7 +9,6 @@ public class TitleSceneMain : BaseSceneMain
         Debug.Log("OnStartButton");
         
         SceneController.Instance.LoadScene(SceneNameConstants.LoadingScene);
-        //SceneController.Instance.LoadSceneAdditive(SceneNameConstants.LoadingScene);
     }
 
 }
