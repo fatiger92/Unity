@@ -8,8 +8,8 @@ using UnityEngine.UI;
 
 public class ScrollSnappingBase : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IScrollSnapping, IPointerClickHandler
 {
-    private Rect panelDimensions;
-    private RectTransform _screenContainer;
+    private Rect panelDimensions; // 패널의 Rect 값
+    private RectTransform _screenContainer; 
     private bool _isVertical;
 
     private int _screens = 1;
