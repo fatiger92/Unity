@@ -294,7 +294,7 @@ GameObject:
   - component: {fileID: 304198923}
   - component: {fileID: 304198922}
   m_Layer: 5
-  m_Name: Page_01 (5)
+  m_Name: Page_05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -631,7 +631,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Page_01
+  m_Text: Page_04
 --- !u!222 &541579343
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -652,7 +652,7 @@ GameObject:
   - component: {fileID: 695639416}
   - component: {fileID: 695639415}
   m_Layer: 5
-  m_Name: Page_01 (4)
+  m_Name: Page_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -788,7 +788,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Page_01
+  m_Text: Page_00
 --- !u!222 &697312456
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1203,7 +1203,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Page_01
+  m_Text: Page_03
 --- !u!222 &1252084291
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1283,7 +1283,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Page_01
+  m_Text: Page_02
 --- !u!222 &1269565630
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1384,7 +1384,7 @@ GameObject:
   - component: {fileID: 1429680108}
   - component: {fileID: 1429680107}
   m_Layer: 5
-  m_Name: Page_01 (3)
+  m_Name: Page_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1461,7 +1461,7 @@ GameObject:
   - component: {fileID: 1454160273}
   - component: {fileID: 1454160272}
   m_Layer: 5
-  m_Name: Page_01 (2)
+  m_Name: Page_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1692,6 +1692,7 @@ GameObject:
   - component: {fileID: 1503690751}
   - component: {fileID: 1503690750}
   - component: {fileID: 1503690749}
+  - component: {fileID: 1503690753}
   m_Layer: 5
   m_Name: Horizontal Scroll Snap
   m_TagString: Untagged
@@ -1746,7 +1747,7 @@ MonoBehaviour:
   SwipeDeltaThreshold: 5
   UseTimeScale: 1
   MaskArea: {fileID: 1481637399}
-  MaskBuffer: 1
+  MaskBuffer: 0.1
   JumpOnEnable: 0
   RestartOnEnable: 0
   UseParentTransform: 1
@@ -1828,6 +1829,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1503690747}
   m_CullTransparentMesh: 1
+--- !u!114 &1503690753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503690747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61fe0f6272fa94d4eb3dafc6aecd50ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InitByUser: 0
 --- !u!1 &1691667790
 GameObject:
   m_ObjectHideFlags: 0
@@ -2133,7 +2147,7 @@ GameObject:
   - component: {fileID: 2059089679}
   - component: {fileID: 2059089678}
   m_Layer: 5
-  m_Name: Page_01 (1)
+  m_Name: Page_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2269,7 +2283,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Page_01
+  m_Text: Page_05
 --- !u!222 &2067992320
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2290,7 +2304,7 @@ GameObject:
   - component: {fileID: 2074929189}
   - component: {fileID: 2074929188}
   m_Layer: 5
-  m_Name: Page_01
+  m_Name: Page_00
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

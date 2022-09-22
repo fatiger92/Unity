@@ -276,6 +276,9 @@ namespace UnityEngine.UI.Extensions
             }
 
             _maskSize = _isVertical ? MaskArea.rect.height : MaskArea.rect.width;
+
+            var a = (int) Math.Round(_maskSize / (_childSize * MaskBuffer), MidpointRounding.AwayFromZero);
+            var b = _maskSize / (_childSize * MaskBuffer);
             _halfNoVisibleItems = (int)Math.Round(_maskSize / (_childSize * MaskBuffer), MidpointRounding.AwayFromZero) / 2;
             _bottomItem = _topItem = 0;
             //work out how many items below the current page can be visible
@@ -407,14 +410,26 @@ namespace UnityEngine.UI.Extensions
             _childPos = -_childSize * page;
             if (_isVertical)
             {
-                _infiniteOffset = _screensContainer.anchoredPosition.y < 0 ? -_screensContainer.sizeDelta.y * _infiniteWindow : _screensContainer.sizeDelta.y * _infiniteWindow;
-                _infiniteOffset = _infiniteOffset == 0 ? 0 : _infiniteOffset < 0 ? _infiniteOffset - _childSize * _infiniteWindow : _infiniteOffset + _childSize * _infiniteWindow;
+                _infiniteOffset = _screensContainer.anchoredPosition.y < 0 ? 
+                    -_screensContainer.sizeDelta.y * _infiniteWindow : 
+                    _screensContainer.sizeDelta.y * _infiniteWindow;
+                
+                _infiniteOffset = _infiniteOffset == 0 ? 0 : _infiniteOffset < 0 ? 
+                    _infiniteOffset - _childSize * _infiniteWindow : 
+                    _infiniteOffset + _childSize * _infiniteWindow;
+                
                 target.y = _childPos + _scrollStartPosition + _infiniteOffset;
             }
             else
             {
-                _infiniteOffset = _screensContainer.anchoredPosition.x < 0 ? -_screensContainer.sizeDelta.x * _infiniteWindow : _screensContainer.sizeDelta.x * _infiniteWindow;
-                _infiniteOffset = _infiniteOffset == 0 ? 0 : _infiniteOffset < 0 ? _infiniteOffset - _childSize * _infiniteWindow : _infiniteOffset + _childSize * _infiniteWindow; 
+                _infiniteOffset = _screensContainer.anchoredPosition.x < 0 ? 
+                    -_screensContainer.sizeDelta.x * _infiniteWindow : 
+                    _screensContainer.sizeDelta.x * _infiniteWindow;
+                
+                _infiniteOffset = _infiniteOffset == 0 ? 0 : _infiniteOffset < 0 ? 
+                    _infiniteOffset - _childSize * _infiniteWindow : 
+                    _infiniteOffset + _childSize * _infiniteWindow; 
+                
                 target.x = _childPos + _scrollStartPosition + _infiniteOffset;
             }
         }
