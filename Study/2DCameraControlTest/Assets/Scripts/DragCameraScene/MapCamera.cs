@@ -5,18 +5,21 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class MapCamera : MonoBehaviour
-{
-    [SerializeField] GameObject LevelsMap;
-    
-    public Camera Camera;
-
-    public Bounds bounds;
+{   
+    Camera Camera;
+    Bounds bounds;
     Vector2 deltaV;
-    float currentTime;
+    
+    //float currentTime;
     bool touched;
     
     Vector2 _prevPosition;
     Transform _transform;
+    
+    void Initialize()
+    {
+        Camera = Camera.main;
+    }
 
     public void MapSizeCheck(Mine[] mines)
     {
@@ -54,21 +57,6 @@ public class MapCamera : MonoBehaviour
 
         bounds.extents = new Vector2(spriteBoundX, modifiedBoundY);
     }
-    void Update()
-    {
-        HandleMouseInput();
-    }
-    
-    void LateUpdate()
-    {
-        SetPosition(transform.position);
-    }
-
-    public void OnDrawGizmos()
-    {
-        Gizmos.DrawWireCube(bounds.center, bounds.size);
-    }
-    
     void HandleMouseInput()
     {
         if (Input.GetMouseButtonDown(0))
@@ -127,5 +115,27 @@ public class MapCamera : MonoBehaviour
         position.y = Mathf.Max(position.y, bounds.min.y + cameraHeight / 2f);
         position.y = Mathf.Min(position.y, bounds.max.y - cameraHeight / 2f);
         return position;
+    }
+    
+    // Unity Method;
+    
+    void Awake()
+    {
+        Initialize();
+    }
+
+    void Update()
+    {
+        HandleMouseInput();
+    }
+    
+    void LateUpdate()
+    {
+        SetPosition(transform.position);
+    }
+
+    public void OnDrawGizmos()
+    {
+        Gizmos.DrawWireCube(bounds.center, bounds.size);
     }
 }
