@@ -6,73 +6,54 @@ using UnityEngine.EventSystems;
 
 public class MapCamera : MonoBehaviour
 {
-    Vector2 _prevPosition;
-    Transform _transform;
-
-    public Camera Camera;
-    public Bounds Bounds;
+    [SerializeField] GameObject LevelsMap;
     
+    public Camera Camera;
+
+    public Bounds bounds;
     Vector2 deltaV;
     float currentTime;
     bool touched;
-
-    public GameObject LevelsMap;
-    public GameObject[] Maps;
-    public SpriteRenderer[] MapsRenderers;
     
-    public void Initialize()
+    Vector2 _prevPosition;
+    Transform _transform;
+
+    public void MapSizeCheck(Mine[] mines)
     {
-        var cnt = LevelsMap.transform.childCount;
-        
-        Maps = new GameObject[cnt];
-
-        for (int i = 0; i < Maps.Length; i++)
-        {
-            Maps[i] = LevelsMap.transform.GetChild(i).gameObject;
-        }
-
-        MapSizeCheck();
-    }
-    
-    public void MapSizeCheck()
-    {
-        if (MapsRenderers.Length > 0)
-            MapsRenderers = null;
-        
-        var cnt = LevelsMap.transform.childCount;
-        
-        MapsRenderers = new SpriteRenderer[cnt];
-        MapsRenderers = LevelsMap.transform.GetComponentsInChildren<SpriteRenderer>();
-
-        SetMapsBounds();
+        SetMapsBounds(mines);
     }
 
-    public void SetMapsBounds()
+    void SetMapsBounds(Mine[] mines)
     {
-        if (MapsRenderers.Length <= 0)
+        if (mines.Length <= 0)
             return;
-        
+
         var spriteBoundX = 0f;
         var spriteBoundY = 0f;
         var modifiedBoundY = 0f;
-
-        spriteBoundX = MapsRenderers[0].sprite.bounds.extents.x;
-        spriteBoundY = MapsRenderers[0].sprite.bounds.extents.y;
-
-        modifiedBoundY = spriteBoundY * MapsRenderers.Length;
-
-        Bounds.center = modifiedBoundY == spriteBoundY ? 
-            Bounds.center = Vector3.zero : 
-            Bounds.center = new Vector2(0f, spriteBoundY - modifiedBoundY);
+        var cnt = 0;
         
-        Bounds.extents = new Vector2(spriteBoundX, modifiedBoundY);
-    }
+        spriteBoundX = mines[0].MapBoundX;
+        spriteBoundY = mines[0].MapBoundY;
+        
+        for (var i = 0; i < mines.Length; i++)
+        {
+            if (mines[i].gameObject.activeSelf)
+            {
+                ++cnt;
+            }
+        }
 
-    void Start()
-    {
-        Initialize();
-    }
+        modifiedBoundY = mines.Length != cnt
+            ? spriteBoundY * cnt + mines[cnt - 1].ExtendMapboundsY
+            : spriteBoundY * cnt;
 
+        bounds.center = modifiedBoundY == spriteBoundY ? 
+            bounds.center = Vector3.zero : 
+            bounds.center = new Vector2(0f, spriteBoundY - modifiedBoundY);
+
+        bounds.extents = new Vector2(spriteBoundX, modifiedBoundY);
+    }
     void Update()
     {
         HandleMouseInput();
@@ -85,10 +66,10 @@ public class MapCamera : MonoBehaviour
 
     public void OnDrawGizmos()
     {
-        Gizmos.DrawWireCube(Bounds.center, Bounds.size);
+        Gizmos.DrawWireCube(bounds.center, bounds.size);
     }
     
-    public void HandleMouseInput()
+    void HandleMouseInput()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -140,11 +121,11 @@ public class MapCamera : MonoBehaviour
         
         //Debug.Log($"Screen.width :: {Screen.width}, Screen.height :: {Screen.height}, cameraHeight :: {cameraHeight} = cameraWidth:: {cameraWidth}");
         
-        position.x = Mathf.Max(position.x, Bounds.min.x + cameraWidth / 2f);
-        position.x = Mathf.Min(position.x, Bounds.max.x - cameraWidth / 2f);
+        position.x = Mathf.Max(position.x, bounds.min.x + cameraWidth / 2f);
+        position.x = Mathf.Min(position.x, bounds.max.x - cameraWidth / 2f);
         
-        position.y = Mathf.Max(position.y, Bounds.min.y + cameraHeight / 2f);
-        position.y = Mathf.Min(position.y, Bounds.max.y - cameraHeight / 2f);
+        position.y = Mathf.Max(position.y, bounds.min.y + cameraHeight / 2f);
+        position.y = Mathf.Min(position.y, bounds.max.y - cameraHeight / 2f);
         return position;
     }
 }
