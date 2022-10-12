@@ -40,7 +40,7 @@ public class DebugBox : MonoBehaviour
         {
             var sprite = Maps[i].GetComponent<SpriteRenderer>().sprite;
             Debug.Log($"{i} 번째 맵 Bounds :: {sprite.bounds}");
-            Debug.Log($"{i} 번째 확장 맵 Bounds :: {Maps[i].extendMapSr.bounds}");
+            Debug.Log($"{i} 번째 확장 맵 Bounds :: {Maps[i]._extendMineSr.bounds}");
         }
     }
 }

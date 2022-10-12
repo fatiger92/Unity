@@ -40,14 +40,6 @@ public class EnemyTable : TableLoader<EnemyStruct> // TableLoader<EnemyStruct> �
         }
         return tableDatas[index];
     }
-
-    [ContextMenu("테이블 값 뭐있지?")]
-    public void PrintDatas()
-    {
-        Debug.Log("EnemyTable");
-        foreach (var element in tableDatas)
-        {
-            Debug.Log($"element index :: {element.Value.index}, FilePath :: {element.Value.FilePath}");
-        }
-    }
+    
+    
 }

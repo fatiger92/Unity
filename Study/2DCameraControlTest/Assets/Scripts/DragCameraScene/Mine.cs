@@ -9,20 +9,25 @@ public class Mine : MonoBehaviour
 {
    [SerializeField] SpriteButton btn_Next;
    
-   public GameObject extendMap;
-   public SpriteRenderer mapSr;
-   public SpriteRenderer extendMapSr;
+   public GameObject _extendMineGo;
+   public SpriteRenderer _mineSr;
+   public SpriteRenderer _extendMineSr;
 
-   public float MapBoundX => mapSr.sprite.bounds.extents.x;
-   public float MapBoundY => mapSr.sprite.bounds.extents.y;
+   public float MapBoundX => _mineSr.sprite.bounds.extents.x;
+   public float MapBoundY => _mineSr.sprite.bounds.extents.y;
    
   //public float ExtendMapboundsX => extendMapSr.sprite.bounds.extents.x;
-   public float ExtendMapboundsY => extendMapSr.sprite.bounds.extents.y;
+   public float ExtendMapboundsY => _extendMineSr.sprite.bounds.extents.y;
 
+   void Initialize()
+   {
+      _mineSr = GetComponent<SpriteRenderer>();
+      _extendMineSr = _extendMineGo.GetComponent<SpriteRenderer>();
+   }
+   
    void Awake()
    {
-      mapSr = GetComponent<SpriteRenderer>();
-      extendMapSr = extendMap.GetComponent<SpriteRenderer>();
+      Initialize();
    }
 
    public void OnNextStage(UnityAction action, bool isAttach)

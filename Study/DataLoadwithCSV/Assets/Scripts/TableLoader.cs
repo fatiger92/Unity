@@ -11,18 +11,32 @@ public class TableLoader<TMarshalStruct> : MonoBehaviour
 
     TableRecordParser<TMarshalStruct> tableRecordParser = new TableRecordParser<TMarshalStruct>();
 
-    public bool Load()
+    // public bool Load() // 코루틴으로 변경 가능?
+    // {
+    //     TextAsset textAsset = Resources.Load<TextAsset>(FilePath);
+    //     if(textAsset == null)
+    //     {
+    //         Debug.LogError("Load Failed! filePath = " + FilePath);
+    //         return false;
+    //     }
+    //
+    //     ParseTable(textAsset.text);
+    //
+    //     return true;
+    // }
+    
+    public bool Load() // 코루틴으로 변경 가능?
     {
         TextAsset textAsset = Resources.Load<TextAsset>(FilePath);
         if(textAsset == null)
         {
-            Debug.LogError("Load Failed! filePath = " + FilePath);
+            Debug.LogError("Load Failed! filePath = " + FilePath); 
             return false;
         }
 
         ParseTable(textAsset.text);
-
-        return true;
+        
+        return true;;
     }
 
     void ParseTable(string text)

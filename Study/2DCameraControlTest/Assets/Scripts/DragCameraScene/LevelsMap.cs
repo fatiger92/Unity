@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelsMap : MonoBehaviour
 {
@@ -18,12 +19,39 @@ public class LevelsMap : MonoBehaviour
     
     public int mapIdx = 0;
     public bool isLoaded = false;
-    
+
+    public Button btn_top;
+    public Button btn_bottom;
+
+    void Awake()
+    {
+        AttachMethod();
+    }
+
     void Start()
     {
         CreateMaps();
-        LoadMaps();
+        PlayerDataLoad(); // 데이터 불러옴.
         ActiveMaps();
+    }
+
+    void AttachMethod()
+    {
+        btn_top.onClick.AddListener(() =>
+        {
+            if (mapCamera == null)
+                return;
+
+            mapCamera.MoveTopCam();
+        });
+        
+        btn_bottom.onClick.AddListener(() =>
+        {
+            if (mapCamera == null)
+                return;
+            
+            mapCamera.MoveBottomCam();
+        });
     }
 
     public void CreateMaps()
@@ -40,13 +68,13 @@ public class LevelsMap : MonoBehaviour
             go.transform.rotation = Quaternion.identity;
             
             if (i == Maps.Length - 1)
-                script.extendMap.SetActive(false);
+                script._extendMineGo.SetActive(false);
             
             Maps[i] = script;
         }
     }
 
-    public void LoadMaps() // 맵 데이터를 로드해온다.
+    public void PlayerDataLoad() // 맵 데이터를 로드해온다.
     {
     }
 
@@ -69,7 +97,7 @@ public class LevelsMap : MonoBehaviour
                 if (i > 0)
                 {
                     Maps[i - 1].OnNextStage(OpenMap, false);
-                    Maps[i - 1].extendMap.SetActive(false);
+                    Maps[i - 1]._extendMineGo.SetActive(false);
                 }
             }
         }
@@ -95,7 +123,7 @@ public class LevelsMap : MonoBehaviour
             Maps[i].gameObject.SetActive(true);
 
             Maps[i - 1].OnNextStage(OpenMap, false);
-            Maps[i - 1].extendMap.SetActive(false);
+            Maps[i - 1]._extendMineGo.SetActive(false);
             break;
         }
         

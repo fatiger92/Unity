@@ -46,7 +46,7 @@ public class TableRecordParser<TMarshalStruct>
 
         // System.Reflection.FieldInfo
         FieldInfo[] fieldInfos = type.GetFields();
-        Debug.Log($"fieldInfos.Length :: {fieldInfos.Length}");
+        //Debug.Log($"fieldInfos.Length :: {fieldInfos.Length}");
         
         for (int i = 0; i < fieldInfos.Length; i++)
         {
@@ -58,7 +58,7 @@ public class TableRecordParser<TMarshalStruct>
             MakeBytesByFieldType(out fieldByte, dataType, splited);
 
             Buffer.BlockCopy(fieldByte, 0, structBytes, structBytesIndex, fieldByte.Length);
-            Debug.Log($"fieldByte.Length :: {fieldByte.Length}");
+            //Debug.Log($"fieldByte.Length :: {fieldByte.Length}");
             structBytesIndex += fieldByte.Length;
 
             // 첫번째 필드를 Key 값으로 사용하기 위해 백업

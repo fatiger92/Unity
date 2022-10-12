@@ -203,6 +203,7 @@ MonoBehaviour:
   unityEvent:
     m_PersistentCalls:
       m_Calls: []
+  eventCount: 0
 --- !u!1 &1586685592
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,7 +386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f357737b971e8b4ab628b9f8d0e6aa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  extendMap: {fileID: 722312857}
   btn_Next: {fileID: 8604073308932534522}
-  mapSr: {fileID: 0}
-  extendMapSr: {fileID: 0}
+  _extendMineGo: {fileID: 722312857}
+  _mineSr: {fileID: 4178020432747946054}
+  _extendMineSr: {fileID: 722312859}

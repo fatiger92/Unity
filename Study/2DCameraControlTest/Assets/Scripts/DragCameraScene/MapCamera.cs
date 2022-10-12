@@ -15,6 +15,9 @@ public class MapCamera : MonoBehaviour
     
     Vector2 _prevPosition;
     Transform _transform;
+
+    Vector2 _topPos;
+    Vector2 _bottomPos;
     
     void Initialize()
     {
@@ -39,6 +42,8 @@ public class MapCamera : MonoBehaviour
         spriteBoundX = mines[0].MapBoundX;
         spriteBoundY = mines[0].MapBoundY;
         
+        Debug.Log($"spriteBoundX :: {spriteBoundX} // spriteBoundY :: {spriteBoundY}");
+        
         for (var i = 0; i < mines.Length; i++)
         {
             if (mines[i].gameObject.activeSelf)
@@ -56,6 +61,14 @@ public class MapCamera : MonoBehaviour
             bounds.center = new Vector2(0f, spriteBoundY - modifiedBoundY);
 
         bounds.extents = new Vector2(spriteBoundX, modifiedBoundY);
+
+        _topPos = new Vector2(transform.position.x, bounds.max.y - Camera.orthographicSize);
+        
+        
+        _bottomPos = new Vector2(transform.position.x,Camera.orthographicSize + bounds.min.y);
+        
+        Debug.Log($"bounds.min.x :: {bounds.min.x}, bounds.max.x :: {bounds.max.x}");
+        Debug.Log($"bounds.min.y :: {bounds.min.y}, bounds.max.y :: {bounds.max.y}");
     }
     void HandleMouseInput()
     {
@@ -105,18 +118,36 @@ public class MapCamera : MonoBehaviour
     Vector2 ApplyBounds(Vector2 position)
     {
         var cameraHeight = Camera.orthographicSize * 2f;
-        var cameraWidth = (Screen.width * 1f / Screen.height) * cameraHeight;
         
-        //Debug.Log($"Screen.width :: {Screen.width}, Screen.height :: {Screen.height}, cameraHeight :: {cameraHeight} = cameraWidth:: {cameraWidth}");
+        // (float)Screen.width / Screen.height = 비율
+        var cameraWidth = ((float)Screen.width / Screen.height) * cameraHeight; 
         
+        Debug.Log($"Screen.width :: {Screen.width}, Screen.height :: {Screen.height}, cameraHeight :: {cameraHeight} = cameraWidth:: {cameraWidth}");
+        Debug.Log($"Screen.width / Screen.height :: {(float)Screen.width / Screen.height}");
+        
+        // 양 옆 바운드 넘어 갔을 시 고정
         position.x = Mathf.Max(position.x, bounds.min.x + cameraWidth / 2f);
         position.x = Mathf.Min(position.x, bounds.max.x - cameraWidth / 2f);
         
+        // 아래 위 바운드 넘어 갔을 시 고정
         position.y = Mathf.Max(position.y, bounds.min.y + cameraHeight / 2f);
         position.y = Mathf.Min(position.y, bounds.max.y - cameraHeight / 2f);
+        
         return position;
     }
-    
+
+    public void MoveTopCam()
+    {
+        // 두트윈으로 해결
+        transform.position = _topPos;
+        Debug.Log(_topPos);
+    }
+
+    public void MoveBottomCam()
+    {
+        transform.Translate(_bottomPos);
+    }
+
     // Unity Method;
     
     void Awake()

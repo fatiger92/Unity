@@ -11,7 +11,7 @@ public class DataLoadManager : MonoBehaviour
 
    [SerializeField] private EnemyTable _enemyTable;
 
-   private void Start()
+   void Start()
    {
       // _squadronDatas = _squadronTr.GetComponentsInChildren<SquadronTable>();
       //
