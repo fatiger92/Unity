@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     static readonly int ANIM_PARAM_SPEED = Animator.StringToHash("speed");
     static readonly int ANIM_PARAM_GROUNDED = Animator.StringToHash("isGrounded");
     static readonly int ANIM_PARAM_YSPEED = Animator.StringToHash("ySpeed");
+    static readonly int ANIM_PARAM_DOUBLEJUMP = Animator.StringToHash("isDoubleJumping");
 
     void Update()
     {
@@ -42,6 +43,7 @@ public class PlayerController : MonoBehaviour
                 //theRB.velocity = new Vector2(theRB.velocity.x, jumpForce);
                 Jump();
                 canDoubleJump = true;
+                anim.SetBool(ANIM_PARAM_DOUBLEJUMP, false);
             }
             else
             {
@@ -50,16 +52,16 @@ public class PlayerController : MonoBehaviour
                     //theRB.velocity = new Vector2(theRB.velocity.x, jumpForce);
                     Jump();
                     canDoubleJump = false;
+                    anim.SetBool(ANIM_PARAM_DOUBLEJUMP, true);
                 }
             }
         }
 
-        transform.localScale = theRB.velocity.x switch
-        {
-            > 0 => Vector3.one,
-            < 0 => new Vector3(-1f, 1f, 1f),
-            _ => transform.localScale
-        };
+        if (theRB.velocity.x > 0)
+            transform.localScale = Vector3.one;
+        
+        if(theRB.velocity.x < 0)
+            transform.localScale = new Vector3(-1f, 1f, 1f);
 
         // handle animation
         anim.SetFloat(ANIM_PARAM_SPEED,Mathf.Abs(theRB.velocity.x));
