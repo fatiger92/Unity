@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class DamagePlayer : MonoBehaviour
 {
+    PlayerHealthController _healthController;
+    
     void Start()
     {
-        
+        _healthController = FindFirstObjectByType<PlayerHealthController>();
     }
 
     void Update()
@@ -17,7 +19,12 @@ public class DamagePlayer : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Player"))
-            other.gameObject.SetActive(false);
+        if (other.CompareTag("Player"))
+        {
+            //other.gameObject.SetActive(false);
+            //FindFirstObjectByType<PlayerHealthController>().DamagePlayer();
+            
+            _healthController.DamagePlayer();
+        }
     }
 }
