@@ -23,8 +23,9 @@ public class DamagePlayer : MonoBehaviour
         {
             //other.gameObject.SetActive(false);
             //FindFirstObjectByType<PlayerHealthController>().DamagePlayer();
+            //_healthController.DamagePlayer();
             
-            _healthController.DamagePlayer();
+            PlayerHealthController.instance.DamagePlayer();
         }
     }
 }

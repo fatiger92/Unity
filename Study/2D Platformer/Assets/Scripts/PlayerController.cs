@@ -20,57 +20,77 @@ public class PlayerController : MonoBehaviour
     static readonly int ANIM_PARAM_SPEED = Animator.StringToHash("speed");
     static readonly int ANIM_PARAM_GROUNDED = Animator.StringToHash("isGrounded");
     static readonly int ANIM_PARAM_YSPEED = Animator.StringToHash("ySpeed");
-    static readonly int ANIM_PARAM_DOUBLEJUMP = Animator.StringToHash("isDoubleJumping");
-
+    static readonly int ANIM_PARAM_DOUBLEJUMP = Animator.StringToHash("doDoubleJump");
+    static readonly int ANIM_PARAM_KNOCKINGBACK = Animator.StringToHash("isKnockingBack");
+    
+    public float knockBackLength, knockBackSpeed;
+    float knockBackCounter;
+    
     void Update()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, groundCheckRadius, whatIsGround);
         
         //theRB.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * moveSpeed, theRB.velocity.y);
-     
-        activeSpeed = moveSpeed;
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            activeSpeed = runSpeed;
-        }
 
-        theRB.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * activeSpeed, theRB.velocity.y);
-        
-        if (Input.GetButtonDown("Jump"))
+        if (knockBackCounter <= 0)
         {
-            if (isGrounded)
+
+            activeSpeed = moveSpeed;
+            if (Input.GetKey(KeyCode.LeftShift))
             {
-                //theRB.velocity = new Vector2(theRB.velocity.x, jumpForce);
-                Jump();
-                canDoubleJump = true;
-                anim.SetBool(ANIM_PARAM_DOUBLEJUMP, false);
+                activeSpeed = runSpeed;
             }
-            else
+
+            theRB.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * activeSpeed, theRB.velocity.y);
+
+            if (Input.GetButtonDown("Jump"))
             {
-                if (canDoubleJump)
+                if (isGrounded)
                 {
                     //theRB.velocity = new Vector2(theRB.velocity.x, jumpForce);
                     Jump();
-                    canDoubleJump = false;
-                    anim.SetBool(ANIM_PARAM_DOUBLEJUMP, true);
+                    canDoubleJump = true;
+                }
+                else
+                {
+                    if (canDoubleJump)
+                    {
+                        //theRB.velocity = new Vector2(theRB.velocity.x, jumpForce);
+                        Jump();
+                        canDoubleJump = false;
+                        anim.SetTrigger(ANIM_PARAM_DOUBLEJUMP);
+                    }
                 }
             }
+
+            if (theRB.velocity.x > 0)
+                transform.localScale = Vector3.one;
+
+            if (theRB.velocity.x < 0)
+                transform.localScale = new Vector3(-1f, 1f, 1f);
         }
-
-        if (theRB.velocity.x > 0)
-            transform.localScale = Vector3.one;
+        else
+        {
+            knockBackCounter -= Time.deltaTime;
+            theRB.velocity = new Vector2( knockBackSpeed * -transform.localScale.x, theRB.velocity.y);
+        }
+            // handle animation
+            anim.SetFloat(ANIM_PARAM_SPEED, Mathf.Abs(theRB.velocity.x));
+            anim.SetBool(ANIM_PARAM_GROUNDED, isGrounded);
+            anim.SetFloat(ANIM_PARAM_YSPEED, theRB.velocity.y);
         
-        if(theRB.velocity.x < 0)
-            transform.localScale = new Vector3(-1f, 1f, 1f);
-
-        // handle animation
-        anim.SetFloat(ANIM_PARAM_SPEED,Mathf.Abs(theRB.velocity.x));
-        anim.SetBool(ANIM_PARAM_GROUNDED, isGrounded);
-        anim.SetFloat(ANIM_PARAM_YSPEED, theRB.velocity.y);
     }
 
     void Jump()
     {
         theRB.velocity = new Vector2(theRB.velocity.x, jumpForce);
+    }
+
+    public void KnockBack()
+    {
+        theRB.velocity = new Vector2(0f, jumpForce * .5f);
+        anim.SetTrigger(ANIM_PARAM_KNOCKINGBACK);
+
+        knockBackCounter = knockBackLength;
     }
 }
