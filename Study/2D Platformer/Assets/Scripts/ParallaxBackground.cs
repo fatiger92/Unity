@@ -1,9 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ParallaxBackground : MonoBehaviour
 {
+    public static ParallaxBackground instance;
+
+    void Awake()
+    {
+        instance = this;
+    }
+
     Transform theCam;
     public Transform sky, treeline;
     [Range(0f, 1f)]
@@ -17,6 +25,18 @@ public class ParallaxBackground : MonoBehaviour
     }
 
     void LateUpdate()
+    {
+        // sky.position = new Vector3(theCam.position.x, theCam.position.y, sky.position.z);
+        //
+        // // y는 대체로 적용하지 않는다.
+        // treeline.position = new Vector3(
+        //     theCam.position.x * parallaxSpeed, 
+        //     /* theCam.position.y * parallaxSpeed */
+        //     theCam.position.y, 
+        //     treeline.position.z);
+    }
+
+    public void MoveBackground()
     {
         sky.position = new Vector3(theCam.position.x, theCam.position.y, sky.position.z);
         
