@@ -59,7 +59,10 @@ public class PlayerHealthController : MonoBehaviour
         if (currentHealth <= 0)
         {
             currentHealth = 0;
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
+            
+            // 플레이어가 죽었을 경우
+            LifeController.instance.Respawn();
         }
         else
         {
