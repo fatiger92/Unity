@@ -9604,7 +9604,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 0
-  maxHealth: 5
+  maxHealth: 1
   invincibilityLength: 1
   theSR: {fileID: 1052791010}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -9643,7 +9643,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 135.4, y: 32.2}
+  m_AnchoredPosition: {x: 135.3999, y: 32.19995}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &428509871
@@ -11078,7 +11078,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnDelay: 1.2
-  currentLives: 1
+  currentLives: 2
+  deathEffect: {fileID: 9086909113486343291, guid: ff7c1dccc2fbdeb4e9ae080dd74c1fd1, type: 3}
+  respawnEffect: {fileID: 6497720700899223148, guid: 8deb09ad5088a6a46a4acb0c204468b8, type: 3}
 --- !u!1 &1296456211
 GameObject:
   m_ObjectHideFlags: 0
@@ -12019,7 +12021,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 26.400024, y: 21.400024}
+  m_AnchoredPosition: {x: 26.400146, y: 21.400024}
   m_SizeDelta: {x: 96.9576, y: 69.5074}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1745325068

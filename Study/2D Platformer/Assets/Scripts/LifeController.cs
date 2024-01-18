@@ -10,7 +10,9 @@ public class LifeController : MonoBehaviour
 
     // 2초가 딱 좋다고 하는데 나는 1.2초가 좋은 것 같음, 2초 너무 길어버림 죽은 것도 빡치는데 기다려야 돼서 더 빡침
     public float respawnDelay = 1.2f;
-    public int currentLives = 1;
+    public int currentLives = 3;
+
+    public GameObject deathEffect, respawnEffect;
     
     void Awake()
     {
@@ -60,6 +62,8 @@ public class LifeController : MonoBehaviour
         {
             UIController.instance.UpdateLivesDisplay(currentLives);
         }
+
+        Instantiate(deathEffect, thePlayer.transform.position, deathEffect.transform.rotation);
     }
     
     IEnumerator RespawnCo()
@@ -70,6 +74,8 @@ public class LifeController : MonoBehaviour
         PlayerHealthController.instance.AddHealth(PlayerHealthController.instance.maxHealth);
         
         thePlayer.gameObject.SetActive(true);
+        
+        Instantiate(respawnEffect, thePlayer.transform.position, respawnEffect.transform.rotation);
     }
 
     IEnumerator GameOverCo()
