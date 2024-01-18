@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
@@ -15,6 +17,9 @@ public class UIController : MonoBehaviour
 
     public Image[] healthIcons;
     public Sprite heartFull, heartEmpty;
+
+    public TMP_Text livesText;
+    public GameObject gameOverScreen;
     
     void Start()
     {
@@ -42,5 +47,21 @@ public class UIController : MonoBehaviour
             if (maxHealth <= i) // 최대체력 넘어서 출력되는 빈 하트를 지우기 위해
                 healthIcons[i].enabled = false;
         }
+    }
+
+    public void UpdateLivesDisplay(int currentLives)
+    {
+        livesText.text = $"x{currentLives}";
+    }
+
+    public void ShowGameOver()
+    {
+        gameOverScreen.SetActive(true);
+    }
+
+    public void Restart()
+    {
+        //Debug.Log("Restarting");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
