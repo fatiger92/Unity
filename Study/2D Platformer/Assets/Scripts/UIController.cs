@@ -18,7 +18,7 @@ public class UIController : MonoBehaviour
     public Image[] healthIcons;
     public Sprite heartFull, heartEmpty;
 
-    public TMP_Text livesText;
+    public TMP_Text livesText, collectibleText;
     public GameObject gameOverScreen;
     
     void Start()
@@ -63,5 +63,10 @@ public class UIController : MonoBehaviour
     {
         //Debug.Log("Restarting");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void UpdateCollectibles(int amount)
+    {
+        collectibleText.text = $"x{amount}";
     }
 }

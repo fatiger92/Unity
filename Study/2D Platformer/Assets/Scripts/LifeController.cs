@@ -25,11 +25,8 @@ public class LifeController : MonoBehaviour
         
         // 아래가 더 자원소모 적음 - 내가 생각한거
         //thePlayer = PlayerHealthController.instance.gameObject.GetComponent<PlayerController>();
-        
-        if (UIController.instance != null)
-        {
-            UIController.instance.UpdateLivesDisplay(currentLives);
-        }
+
+        UpdateDisplay();
     }
 
     void Update()
@@ -58,10 +55,7 @@ public class LifeController : MonoBehaviour
             StartCoroutine(GameOverCo());
         }
 
-        if (UIController.instance != null)
-        {
-            UIController.instance.UpdateLivesDisplay(currentLives);
-        }
+        UpdateDisplay();
 
         Instantiate(deathEffect, thePlayer.transform.position, deathEffect.transform.rotation);
     }
@@ -75,7 +69,7 @@ public class LifeController : MonoBehaviour
         
         thePlayer.gameObject.SetActive(true);
         
-        Instantiate(respawnEffect, thePlayer.transform.position, respawnEffect.transform.rotation);
+        Instantiate(respawnEffect, thePlayer.transform.position, Quaternion.identity);
     }
 
     IEnumerator GameOverCo()
@@ -85,6 +79,21 @@ public class LifeController : MonoBehaviour
         if (UIController.instance != null)
         {
             UIController.instance.ShowGameOver();
+        }
+    }
+
+    public void AddLife()
+    {
+        currentLives++;
+        
+        UpdateDisplay();
+    }
+
+    public void UpdateDisplay()
+    {
+        if (UIController.instance != null)
+        {
+            UIController.instance.UpdateLivesDisplay(currentLives);
         }
     }
 }
