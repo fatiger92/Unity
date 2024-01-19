@@ -10018,7 +10018,7 @@ MonoBehaviour:
   patrolPoints:
   - {fileID: 2129801147}
   - {fileID: 261417005}
-  moveSpeed: 2
+  moveSpeed: 3
 --- !u!1 &378507263
 GameObject:
   m_ObjectHideFlags: 0

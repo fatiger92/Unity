@@ -8,6 +8,9 @@ public class EnemyPatrol : MonoBehaviour
     int currentPoint;
 
     public float moveSpeed;
+    public float timeAtPoints;
+    float waitCounter;
+    
     void Start()
     {
         foreach (var t in patrolPoints)
@@ -17,5 +20,15 @@ public class EnemyPatrol : MonoBehaviour
     void Update()
     {
         transform.position = Vector3.MoveTowards(transform.position, patrolPoints[currentPoint].position, moveSpeed * Time.deltaTime);
+
+        if (Vector3.Distance(transform.position, patrolPoints[currentPoint].position) < .001f) // 엄청 가깝다면
+        {
+            currentPoint++;
+
+            if (currentPoint >= patrolPoints.Length)
+            {
+                currentPoint = 0;
+            }
+        }
     }
 }
