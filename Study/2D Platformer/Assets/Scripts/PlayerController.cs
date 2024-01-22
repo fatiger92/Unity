@@ -25,9 +25,12 @@ public class PlayerController : MonoBehaviour
     
     public float knockBackLength, knockBackSpeed;
     float knockBackCounter;
-    
+
     void Update()
     {
+        if (Time.timeScale <= 0f)
+            return;
+
         isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, groundCheckRadius, whatIsGround);
         
         //theRB.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * moveSpeed, theRB.velocity.y);
@@ -84,6 +87,7 @@ public class PlayerController : MonoBehaviour
     public void Jump()
     {
         theRB.velocity = new Vector2(theRB.velocity.x, jumpForce);
+        AudioManager.instance.PlaySFX(14);
     }
 
     public void KnockBack()

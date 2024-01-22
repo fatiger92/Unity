@@ -20,7 +20,9 @@ public class UIController : MonoBehaviour
 
     public TMP_Text livesText, collectibleText;
     public GameObject gameOverScreen;
-    
+
+    public GameObject pauseScreen;
+    public string MainMenuScene;
     void Start()
     {
         
@@ -28,7 +30,12 @@ public class UIController : MonoBehaviour
 
     void Update()
     {
-        
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseUnpause();
+        }
+#endif
     }
 
     public void UpdateHealthDisplay(int health, int maxHealth)
@@ -63,10 +70,30 @@ public class UIController : MonoBehaviour
     {
         //Debug.Log("Restarting");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1f;
     }
 
     public void UpdateCollectibles(int amount)
     {
         collectibleText.text = $"x{amount}";
+    }
+
+    void PauseUnpause()
+    {
+        bool isPaused = pauseScreen.activeSelf;
+        
+        pauseScreen.SetActive(isPaused == false);
+        Time.timeScale = isPaused == false ? 0f : 1f;
+    }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene(MainMenuScene);
+        Time.timeScale = 1f;
+    }
+    public void QuitGame()
+    {
+        Application.Quit();
+        Debug.Log("I Quit");
     }
 }

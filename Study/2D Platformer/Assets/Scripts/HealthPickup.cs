@@ -21,6 +21,8 @@ public class HealthPickup : MonoBehaviour
             inst.AddHealth(giveFullHealth == true ? inst.maxHealth : healthToAdd);
             Destroy(gameObject);
             Instantiate(pickupEffect, transform.position, transform.rotation);
+            
+            AudioManager.instance.PlaySFX(10);
          }
       }
    }

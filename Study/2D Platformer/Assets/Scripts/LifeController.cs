@@ -87,6 +87,8 @@ public class LifeController : MonoBehaviour
         currentLives++;
         
         UpdateDisplay();
+        
+        AudioManager.instance.PlaySFX(8);
     }
 
     public void UpdateDisplay()

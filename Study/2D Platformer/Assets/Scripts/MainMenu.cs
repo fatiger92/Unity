@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour
     
     void Start()
     {
-        
+        AudioManager.instance.PlayMenuMusic();
     }
 
     void Update()

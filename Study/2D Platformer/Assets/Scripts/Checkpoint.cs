@@ -18,6 +18,8 @@ public class Checkpoint : MonoBehaviour
             cm.SetActiveCheckpoint(this);
             anim.SetBool(ANIM_PARAM_FLAGACTIVE, true);
             isActive = true;
+            
+            AudioManager.instance.PlaySFX(3);
         }
     }
 

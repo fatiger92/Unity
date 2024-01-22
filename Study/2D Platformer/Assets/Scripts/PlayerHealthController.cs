@@ -63,12 +63,15 @@ public class PlayerHealthController : MonoBehaviour
             
             // 플레이어가 죽었을 경우
             LifeController.instance.Respawn();
+            
+            AudioManager.instance.PlaySFX(11);
         }
         else
         {
             invincibilityCounter = invincibilityLength;
             theSR.color = fadeColor;
             thePlayer.KnockBack();
+            AudioManager.instance.PlaySFX(13);
         }
         
         UIController.instance.UpdateHealthDisplay(currentHealth, maxHealth);
