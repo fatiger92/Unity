@@ -28,9 +28,9 @@ public class EnemyController : MonoBehaviour
 
             if (waitToDestory <= 0)
             {
-                Destroy(gameObject);
-                
                 AudioManager.instance.PlaySFX(5);
+                
+                Destroy(gameObject);
             }
         }
     }

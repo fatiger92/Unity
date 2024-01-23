@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour
     public void Jump()
     {
         theRB.velocity = new Vector2(theRB.velocity.x, jumpForce);
-        AudioManager.instance.PlaySFX(14);
+        AudioManager.instance.PlaySFXPitched(14);
     }
 
     public void KnockBack()

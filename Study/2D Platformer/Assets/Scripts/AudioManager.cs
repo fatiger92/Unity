@@ -10,7 +10,6 @@ public class AudioManager : MonoBehaviour
     
     void Awake()
     {
-        Debug.Log("나는 AudioManager.Awake()");
         if (instance == null)
         {
             //instance = this;
@@ -25,7 +24,6 @@ public class AudioManager : MonoBehaviour
 
     public void SetupAudioManager()
     {
-        Debug.Log("나는 AudioManager.instance.SetupAudioManager()");
         instance = this;
         DontDestroyOnLoad(gameObject);
     }
@@ -40,7 +38,6 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("나는 AudioManager.Start()");
         SetAllVolumes();
     }
 

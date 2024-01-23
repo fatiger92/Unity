@@ -26,6 +26,8 @@ public class LifeController : MonoBehaviour
         // 아래가 더 자원소모 적음 - 내가 생각한거
         //thePlayer = PlayerHealthController.instance.gameObject.GetComponent<PlayerController>();
 
+        currentLives = InfoTracker.instance.currentLives;
+        
         UpdateDisplay();
     }
 
@@ -58,6 +60,8 @@ public class LifeController : MonoBehaviour
         UpdateDisplay();
 
         Instantiate(deathEffect, thePlayer.transform.position, deathEffect.transform.rotation);
+        
+        AudioManager.instance.PlaySFX(11);
     }
     
     IEnumerator RespawnCo()

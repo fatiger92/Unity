@@ -17,6 +17,8 @@ public class CollectiblesManager : MonoBehaviour
     
     void Start()
     {
+        collectibleCount = InfoTracker.instance.currentFruit;
+        
         if (UIController.instance != null)
         {
             UIController.instance.UpdateCollectibles(collectibleCount);

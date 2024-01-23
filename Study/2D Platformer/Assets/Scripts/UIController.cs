@@ -20,12 +20,16 @@ public class UIController : MonoBehaviour
 
     public TMP_Text livesText, collectibleText;
     public GameObject gameOverScreen;
-
     public GameObject pauseScreen;
+    
     public string MainMenuScene;
+    public Image fadeScreen;
+    public float fadeSpeed;
+    public bool fadingToBlack, fadingFromBlack;
+    
     void Start()
     {
-        
+        FadeFromBlack();
     }
 
     void Update()
@@ -36,6 +40,24 @@ public class UIController : MonoBehaviour
             PauseUnpause();
         }
 #endif
+
+        if (fadingFromBlack)
+        {
+            fadeScreen.color = new Color(
+                fadeScreen.color.r,
+                fadeScreen.color.g,
+                fadeScreen.color.b,
+                Mathf.MoveTowards(fadeScreen.color.a, 0f, fadeSpeed * Time.deltaTime));
+        }
+
+        if (fadingToBlack)
+        {
+            fadeScreen.color = new Color(
+                fadeScreen.color.r,
+                fadeScreen.color.g,
+                fadeScreen.color.b,
+                Mathf.MoveTowards(fadeScreen.color.a, 1f, fadeSpeed * Time.deltaTime));
+        }
     }
 
     public void UpdateHealthDisplay(int health, int maxHealth)
@@ -95,5 +117,17 @@ public class UIController : MonoBehaviour
     {
         Application.Quit();
         Debug.Log("I Quit");
+    }
+
+    public void FadeFromBlack()
+    {
+        fadingToBlack = false;
+        fadingFromBlack = true;
+    }
+
+    public void FadeToBlack()
+    {
+        fadingToBlack = true;
+        fadingFromBlack = false;
     }
 }
