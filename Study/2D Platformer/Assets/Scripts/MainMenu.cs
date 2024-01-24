@@ -6,19 +6,42 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public string firstLevel;
+
+    public int startingLives = 3, startingFruit = 0;
+
+    public GameObject continueButton;
     
     void Start()
     {
         AudioManager.instance.PlayMenuMusic();
+
+        if (PlayerPrefs.HasKey("currentLevel"))
+        {
+            continueButton.SetActive(true);
+        }
     }
 
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            AudioManager.instance.PlayLevelMusic(1);
+        }
+
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            PlayerPrefs.DeleteAll();
+        }
+#endif
     }
 
     public void StartGame()
     {
+        InfoTracker.instance.currentLives = startingLives;
+        InfoTracker.instance.currentFruit = startingFruit;
+        InfoTracker.instance.SaveInfo();
+        
         SceneManager.LoadScene(firstLevel);
     }
 
@@ -27,5 +50,10 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
         
         Debug.Log("I Quit");
+    }
+
+    public void Continue()
+    {
+        SceneManager.LoadScene(PlayerPrefs.GetString("currentLevel"));
     }
 }
