@@ -20,11 +20,20 @@ public class BossBattleController : MonoBehaviour
 
     public float launcherRotateSpeed = 90f;
     float launcherRotation;
+
+    public GameObject projectileToFire;
+    public Transform[] projectilePoints;
+
+    public float waitToStartShooting, timeBetweenShots;
+    float shootStartCounter, shotCounter;
+    int currentShot;
     
     void Start()
     {
         camController = FindFirstObjectByType<CameraController>();
 
+        shootStartCounter = waitToStartShooting;
+        
         theBoss.localScale = Vector3.zero;
     }
 
@@ -59,6 +68,27 @@ public class BossBattleController : MonoBehaviour
                 launcherRotation -= 360f;
 
             projectileLauncher.transform.localRotation = Quaternion.Euler(0f, 0f,launcherRotation);
+
+            if (shootStartCounter > 0f)
+            {
+                shootStartCounter -= Time.deltaTime;
+
+                if (shootStartCounter <= 0f)
+                {
+                    shootStartCounter = timeBetweenShots;
+                    FireShot();
+                }
+            }
+
+            if (shotCounter > 0f)
+            {
+                shotCounter -= Time.deltaTime;
+                if (shotCounter <= 0f)
+                {
+                    shotCounter = timeBetweenShots;
+                    FireShot();
+                }
+            }
         }
     }
 
@@ -67,5 +97,10 @@ public class BossBattleController : MonoBehaviour
         bossActive = true;
         blockers.SetActive(true);
         camController.enabled = false;
+    }
+
+    void FireShot()
+    {
+        Debug.Log("Fired shot at " + Time.time);
     }
 }

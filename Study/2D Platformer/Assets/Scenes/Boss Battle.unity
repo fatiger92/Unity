@@ -4103,6 +4103,11 @@ MonoBehaviour:
   bossGrowSpeed: 2
   projectileLauncher: {fileID: 487990056}
   launcherGrowSpeed: 2
+  launcherRotateSpeed: 90
+  projectileToFire: {fileID: 7173628477281619047, guid: 31ff9450bfb7df245b382f05d5a52938, type: 3}
+  projectilePoints: []
+  waitToStartShooting: 3
+  timeBetweenShots: 1
 --- !u!1 &1111286091
 GameObject:
   m_ObjectHideFlags: 0
