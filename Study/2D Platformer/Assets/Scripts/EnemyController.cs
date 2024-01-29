@@ -12,12 +12,15 @@ public class EnemyController : MonoBehaviour
 
     public float waitToDestory;
     
-    Animator anim;
+    public Animator anim;
         
     
     void Start()
     {
-        anim = GetComponent<Animator>();
+        if (anim == null)
+        {
+            anim = GetComponent<Animator>();
+        }
     }
 
     void Update()

@@ -8955,7 +8955,7 @@ MonoBehaviour:
   collectibleText: {fileID: 6303209855193978473}
   gameOverScreen: {fileID: 551543514700098009}
   pauseScreen: {fileID: 1261863114782116493}
-  MainMenuScene: Main Menu
+  MainMenuScene: Boss Battle
   fadeScreen: {fileID: 346172535598030746}
   fadeSpeed: 1
   fadingToBlack: 0
@@ -11360,7 +11360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 8215433099071456802}
-  nextLevel: Main Menu
+  nextLevel: Boss Battle
   waitToEndLevel: 3.5
   blocker: {fileID: 5368777121771276991}
   fadeTime: 1

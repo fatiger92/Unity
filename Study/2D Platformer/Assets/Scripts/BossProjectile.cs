@@ -9,8 +9,11 @@ public class BossProjectile : MonoBehaviour
     Vector3 direction;
 
     public float lifetime = 3f;
+    //int groundLayerIndex;
     void Start()
     {
+        //groundLayerIndex = LayerMask.NameToLayer("Ground");
+        
         direction = (PlayerHealthController.instance.transform.position - transform.position).normalized;
         
         Destroy(gameObject, lifetime);
@@ -28,5 +31,10 @@ public class BossProjectile : MonoBehaviour
             PlayerHealthController.instance.DamagePlayer();
             Destroy(gameObject);
         }
+        
+        // if (other.gameObject.layer == groundLayerIndex)
+        // {
+        //     Destroy(gameObject);
+        // }
     }
 }

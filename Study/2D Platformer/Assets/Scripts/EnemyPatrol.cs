@@ -13,8 +13,13 @@ public class EnemyPatrol : MonoBehaviour
     public float timeAtPoints;
     float waitCounter;
 
-    Animator anim;
+    public Animator anim;
     public EnemyController theEC;
+
+    public bool shouldChasePlayer;
+    bool isChasing;
+    public float distanceToChasePlayer;
+    PlayerController thePlayer;
     
     void Start()
     {
@@ -23,39 +28,80 @@ public class EnemyPatrol : MonoBehaviour
 
         waitCounter = timeAtPoints;
 
-        anim = GetComponent<Animator>();
+        if (anim == null)
+        {
+            anim = GetComponent<Animator>();
+        }
+
         theEC = GetComponent<EnemyController>();
         
         anim.SetBool(ANIM_PARAM_ISMOVING, true);
+
+        if (shouldChasePlayer == true)
+        {
+            thePlayer = FindFirstObjectByType<PlayerController>();
+        }
     }
 
     void Update()
     {
-        if (theEC.isDefeated == true)
+        if (theEC.isDefeated != false) 
             return;
         
-        transform.position = Vector3.MoveTowards(transform.position, patrolPoints[currentPoint].position, moveSpeed * Time.deltaTime);
-
-        if (Vector3.Distance(transform.position, patrolPoints[currentPoint].position) < .001f) // 엄청 가깝다면
+        if (shouldChasePlayer == true)
         {
-            waitCounter -= Time.deltaTime;
-            anim.SetBool(ANIM_PARAM_ISMOVING, false);
-            
-            if (waitCounter <= 0)
+            if (isChasing == false)
             {
-                currentPoint++;
-
-                if (currentPoint >= patrolPoints.Length)
+                if (Vector3.Distance(transform.position, thePlayer.transform.position) < distanceToChasePlayer)
                 {
-                    currentPoint = 0;
+                    isChasing = true;
                 }
-
-                waitCounter = timeAtPoints;
-                anim.SetBool(ANIM_PARAM_ISMOVING, true);
-
-                var direction = transform.position.x < patrolPoints[currentPoint].position.x ? -1f : 1f;
-                transform.localScale = new Vector3(direction, 1f, 1f);
             }
+            else
+            {
+                if (Vector3.Distance(transform.position, thePlayer.transform.position) > distanceToChasePlayer)
+                {
+                    var direction = transform.position.x < patrolPoints[currentPoint].position.x ? -1f : 1f;
+                    transform.localScale = new Vector3(direction, 1f, 1f);
+                    
+                    isChasing = false;
+                }
+            }
+        }
+
+        if (shouldChasePlayer == false || (shouldChasePlayer == true && isChasing == false))
+        {
+            transform.position = Vector3.MoveTowards(transform.position, patrolPoints[currentPoint].position,
+                moveSpeed * Time.deltaTime);
+
+            if (Vector3.Distance(transform.position, patrolPoints[currentPoint].position) < .001f) // 엄청 가깝다면
+            {
+                waitCounter -= Time.deltaTime;
+                anim.SetBool(ANIM_PARAM_ISMOVING, false);
+                
+                if (waitCounter <= 0)
+                {
+                    currentPoint++;
+
+                    if (currentPoint >= patrolPoints.Length)
+                    {
+                        currentPoint = 0;
+                    }
+
+                    waitCounter = timeAtPoints;
+                    anim.SetBool(ANIM_PARAM_ISMOVING, true);
+                    
+                    var direction = transform.position.x < patrolPoints[currentPoint].position.x ? -1f : 1f;
+                    transform.localScale = new Vector3(direction, 1f, 1f);
+                }
+            }
+        }
+        else if(isChasing == true)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, thePlayer.transform.position,
+                moveSpeed * Time.deltaTime);
+            
+            transform.localScale = transform.position.x > thePlayer.transform.position.x ? Vector3.one : new Vector3(-1f, 1f, 1f);
         }
     }
 }

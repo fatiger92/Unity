@@ -42,8 +42,13 @@ public class LevelExit : MonoBehaviour
         
         InfoTracker.instance.GetInfo();
         InfoTracker.instance.SaveInfo();
-        
+
         PlayerPrefs.SetString("currentLevel", nextLevel);
+        
+        // if (nextLevel != "Victory Screen")
+        // {
+        //     PlayerPrefs.SetString("currentLevel", nextLevel);
+        // }
         
         SceneManager.LoadScene(nextLevel);
     }
